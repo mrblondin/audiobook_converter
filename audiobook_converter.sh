@@ -106,8 +106,9 @@ done < "$TEMP_INFO"
 # Merge files into M4B with proper chapters
 echo "Creating M4B file with $(wc -l < "$FILELIST") audio files and $chapter_num chapters..."
 ffmpeg -f concat -safe 0 -i "$FILELIST" -i "$CHAPTERS_FILE" -map 0 -map_metadata 1 \
-       -c copy -metadata title="Audiobook" \
+       -c:a aac -b:a 128k -c:v copy -metadata title="Audiobook" \
        -metadata:s:a:0 title="Audiobook" \
+       -movflags +faststart \
        -f mp4 "$OUTPUT"
 
 # Verify the output file exists
